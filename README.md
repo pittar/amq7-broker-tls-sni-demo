@@ -4,7 +4,7 @@
 
 When you deploy AMQ7 Broker (Apache Artemis) in an OpenShift cluster, how do you access it externally when the OpenShift router only handles http/s traffic on ports 80 and 443?
 
-## Answer
+## Solution
 
 Use [TLS Server Name Indication (SNI)](https://en.wikipedia.org/wiki/Server_Name_Indication), which allows the router to pass TCP traffic on to the the backend pod.  This is one of the main use cases for the `passthrough` TLS settting for routes!
 
