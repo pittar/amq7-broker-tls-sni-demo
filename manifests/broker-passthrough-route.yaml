@@ -1,0 +1,18 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  labels:
+    application: broker
+    template: amq-broker-77-ssl
+  name: broker
+spec:
+  port:
+    targetPort: 61617
+  tls:
+    insecureEdgeTerminationPolicy: None
+    termination: passthrough
+  to:
+    kind: Service
+    name: broker-amq-tcp-ssl
+    weight: 100
+  wildcardPolicy: None

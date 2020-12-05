@@ -1,0 +1,42 @@
+# Spring Boot
+spring:
+  banner:
+    location: banner.txt
+
+client-keystore:
+  location: ../../tls/client.ks
+  password: password
+
+client-truststore:
+  location: ../../tls/client.ts
+  password: password
+
+
+amq-broker:
+  url: broker-amq-demo.apps.cluster-0df2.0df2.example.opentlc.com
+  #url: broker-amq-demo.apps.cluster-0df2.0df2.example.opentlc.com
+  port: 443
+  options: jms.username=amquser&jms.password=password&transport.keyStoreLocation=${client-keystore.location}&transport.keyStorePassword=${client-keystore.password}&transport.trustStoreLocation=${client-truststore.location}&transport.trustStorePassword=${client-truststore.password}&transport.verifyHost=false
+
+amqp:
+  destination:
+    name: demoQueue
+
+# AMQPHub
+amqphub:
+  amqp10jms:
+    pool:
+      enabled: true
+    remote-url: amqps://${amq-broker.url}:${amq-broker.port}?${amq-broker.options}
+
+# Camel Spring Boot
+camel:
+  springboot:
+    name: amqp-console-consumer
+    main-run-controller: true
+
+# Logging
+logging:
+  level:
+    root: ERROR
+    #org.apache.camel.examples: DEBUG
