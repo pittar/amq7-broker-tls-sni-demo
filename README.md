@@ -124,3 +124,7 @@ Open two new terminals (make sure `JAVA_HOME` is set to Java 8):
 * In the second terminal, change to the `clients/amqp-consumer` directory and run:
     * `mvn spring-boot:run -Damq-broker.url=<route url>`
     * Once the app starts, you will see the messages that were pulled from the queue.
+
+## Reference
+
+Thanks [Josh Reagan](https://github.com/joshdreagan) for the help and the [sample clients](https://github.com/joshdreagan/amqp-clients)!
