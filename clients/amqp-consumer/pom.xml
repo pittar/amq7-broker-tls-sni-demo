@@ -18,13 +18,50 @@ limitations under the License.
 
   <modelVersion>4.0.0</modelVersion>
 
-  <parent>
-    <groupId>org.apache.camel.examples</groupId>
-    <artifactId>amqp-clients</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
-  </parent>
+  <groupId>org.apache.camel.examples</groupId>
+  <artifactId>amqp-consumer</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-  <artifactId>amqp-console-consumer</artifactId>
+    <maven.compiler.source>8</maven.compiler.source>
+    <maven.compiler.target>8</maven.compiler.target>
+
+    <camel.version>2.23.4</camel.version>
+    <spring-boot.version>2.1.18.RELEASE</spring-boot.version>
+    <amqphub.version>2.1.9</amqphub.version>
+    <messaginghub.version>1.0.6</messaginghub.version>
+  </properties>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.amqphub.spring</groupId>
+        <artifactId>amqp-10-jms-spring-boot-starter</artifactId>
+        <version>${amqphub.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.messaginghub</groupId>
+        <artifactId>pooled-jms</artifactId>
+        <version>${messaginghub.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-dependencies</artifactId>
+        <version>${spring-boot.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.camel</groupId>
+        <artifactId>camel-spring-boot-dependencies</artifactId>
+        <version>${camel.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
 
   <dependencies>
     <dependency>
@@ -54,6 +91,15 @@ limitations under the License.
   </dependencies>
 
   <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-maven-plugin</artifactId>
+          <version>${spring-boot.version}</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
     <plugins>
       <plugin>
         <groupId>org.springframework.boot</groupId>

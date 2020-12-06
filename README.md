@@ -37,6 +37,16 @@ https://raw.githubusercontent.com/jboss-container-images/jboss-amq-7-broker-open
 
 ## TLS SNI with AMQ 7 Broker
 
+### TL;DR
+
+If you want a one-liner to just do everything, login with the `oc` cli and run:
+
+```
+$ ./provision.sh
+```
+
+This will run all the steps below to generate keystores/truststores, an amq-demo project, a service account, secret, and broker.
+
 ### Generate Keystores and Truststores
 
 In order for 2-way SSL to work between the broker and an application, we need to create a `keystore` and `truststore` for each, and exchange certificates.
@@ -100,3 +110,17 @@ $ oc new-app --template=amq-broker-77-ssl \
    -p AMQ_KEYSTORE=broker.ks \
    -p AMQ_KEYSTORE_PASSWORD=password
 ```
+
+## Test It Out!
+
+There is a **producer** and a **consumer** client that you can use to test out the new broker config.
+
+Take note of the passthrough route url (it was printed at as the last output of the provision script, or you an find it with `oc get route broker -o=jsonpath='{.spec.host}{"\n"}'`).
+
+Open two new terminals (make sure `JAVA_HOME` is set to Java 8):
+* In the first terminal, change to the `clients/amqp-producer` directory and run:
+    * `mvn spring-boot:run -Damq-broker.url=<route url>`
+    * Once the app starts, you can enter messages to add to the queue.
+* In the second terminal, change to the `clients/amqp-consumer` directory and run:
+    * `mvn spring-boot:run -Damq-broker.url=<route url>`
+    * Once the app starts, you will see the messages that were pulled from the queue.
