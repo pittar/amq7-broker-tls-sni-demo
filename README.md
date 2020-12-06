@@ -134,7 +134,7 @@ If you want to deploy a sample app to OpenShift to connect to the broker:
 $ oc new-project amq-consumer
 
 # Create aa secret with the client keystore and truststore.
-$ oc create secret generic amq-app-secret --from-file=client.ks=tls/client.ks --from-file=client.ts=tls/client.ts
+$ oc create secret generic amq-client-secret --from-file=client.ks=tls/client.ks --from-file=client.ts=tls/client.ts
 
 
 ```
