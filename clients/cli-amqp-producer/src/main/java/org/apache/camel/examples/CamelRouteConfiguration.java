@@ -34,13 +34,13 @@ public class CamelRouteConfiguration extends RouteBuilder {
   
   @Override
   public void configure() {
-    
-    from("stream:in?promptMessage=RAW(> )&initialPromptDelay=0")
-      .filter(simple("${body} == ${null} || ${body} == ''"))
-        .stop()
-      .end()
+    from("timer://simpleTimer?period=3000")
+      .setBody(simple("Hello from timer at ${header.firedTime}"))
       .log(LoggingLevel.DEBUG, log, "Sending message: ${body}")
-      .to(ExchangePattern.InOnly, "amqp:{{amqp.destination.type:queue}}://{{amqp.destination.name}}")
-    ;
+      .wireTap("direct:tap")
+      .to(ExchangePattern.InOnly, "amqp:{{amqp.destination.type:queue}}://{{amqp.destination.name}}");
+
+    from("direct:tap")
+      .to("stream:out");
   }
 }

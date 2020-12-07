@@ -1,1 +1,1 @@
-Please enter message and hit <enter>:
+Producing messages on a 3 second timer:
