@@ -1,0 +1,33 @@
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  labels:
+    application: producer
+  name: producer
+spec:
+  failedBuildsHistoryLimit: 5
+  nodeSelector: {}
+  output:
+    to:
+      kind: ImageStreamTag
+      name: producer:latest
+  postCommit: {}
+  resources: {}
+  runPolicy: Serial
+  source:
+    contextDir: clients/cli-amqp-producer
+    git:
+      ref: main
+      uri: https://github.com/pittar/amq7-broker-tls-sni-demo
+    type: Git
+  strategy:
+    sourceStrategy:
+      forcePull: true
+      from:
+        kind: ImageStreamTag
+        name: java:8
+        namespace: openshift
+    type: Source
+  successfulBuildsHistoryLimit: 5
+  triggers:
+  - type: ConfigChange

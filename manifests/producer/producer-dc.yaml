@@ -1,0 +1,68 @@
+apiVersion: apps.openshift.io/v1
+kind: DeploymentConfig
+metadata:
+  labels:
+    application: producer
+  name: producer
+spec:
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    deploymentConfig: producer
+  strategy:
+    activeDeadlineSeconds: 21600
+    recreateParams:
+      timeoutSeconds: 600
+    resources: {}
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        application: producer
+        deploymentConfig: producer
+      name: producer
+    spec:
+      containers:
+      - envFrom:
+        - secretRef:
+            name: broker-params
+        imagePullPolicy: Always
+        name: producer
+        ports:
+        - containerPort: 8778
+          name: jolokia
+          protocol: TCP
+        - containerPort: 8080
+          name: http
+          protocol: TCP
+        - containerPort: 8443
+          name: https
+          protocol: TCP
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /appdata/config
+          name: amq-client-secret
+          readOnly: true
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 75
+      volumes:
+      - name: amq-client-secret
+        secret:
+          defaultMode: 420
+          secretName: amq-client-secret
+  test: false
+  triggers:
+  - imageChangeParams:
+      automatic: true
+      containerNames:
+      - producer
+      from:
+        kind: ImageStreamTag
+        name: producer:latest
+    type: ImageChange
+  - type: ConfigChange

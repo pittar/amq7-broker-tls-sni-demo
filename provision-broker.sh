@@ -46,7 +46,7 @@ echo ""
 
 echo "Create a 'passthrough' route to port 61617 (all protocols ssl)."
 echo ""
-oc apply -f manifests/broker-passthrough-route.yaml
+oc apply -f manifests/broker/broker-passthrough-route.yaml
 
 AMQ_HOST=$(oc get route broker -o=jsonpath='{.spec.host}{"\n"}')
 

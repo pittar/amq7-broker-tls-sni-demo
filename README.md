@@ -42,7 +42,10 @@ https://raw.githubusercontent.com/jboss-container-images/jboss-amq-7-broker-open
 If you want a one-liner to just do everything, login with the `oc` cli and run:
 
 ```
-$ ./provision.sh
+$ ./provision-broker.sh
+
+# Once the broker is running.
+$ ./provision-client.sh
 ```
 
 This will run all the steps below to generate keystores/truststores, an amq-demo project, a service account, secret, and broker.
@@ -109,6 +112,14 @@ $ oc new-app --template=amq-broker-77-ssl \
    -p AMQ_TRUSTSTORE_PASSWORD=password \
    -p AMQ_KEYSTORE=broker.ks \
    -p AMQ_KEYSTORE_PASSWORD=password
+```
+
+Finally, create a `passthrough` route that will expose port 61617 (all protocols ssl) through the router on port 443:
+
+```
+$ oc apply -f manifests/broker/broker-passthrough-route.yaml
+
+$ oc get route broker -o=jsonpath='{.spec.host}{"\n"}'
 ```
 
 ## Test It Out!
