@@ -44,7 +44,13 @@ If you want a one-liner to just do everything, login with the `oc` cli and run:
 ```
 $ ./provision-broker.sh
 
-# Once the broker is running.
+# Once the broker is running:
+# 
+# * Replace the broker URL in:
+#      * manifests/consumer/broker-params-secret.yaml
+#      * manifests/producer/broker-params-secret.yaml
+# With the passthrough route URL printed at the end of the broker deployment script, then run:
+
 $ ./provision-client.sh
 ```
 
