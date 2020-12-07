@@ -51,7 +51,7 @@ $ ./provision-broker.sh
 #      * manifests/producer/broker-params-secret.yaml
 # With the passthrough route URL printed at the end of the broker deployment script, then run:
 
-$ ./provision-client.sh
+$ ./provision-clients.sh
 ```
 
 This will run all the steps below to generate keystores/truststores, an amq-demo project, a service account, secret, and broker.
@@ -81,7 +81,7 @@ keytool -import -keystore broker.ts -file client-cert.cer -storepass password -k
 Create a new project:
 
 ```
-$ oc new-project amq-demo
+$ oc new-project amq-broker-demo
 ```
 
 Create a service account for AMQ Broker:
@@ -137,29 +137,13 @@ Take note of the passthrough route url (it was printed at as the last output of 
 Open two new terminals (make sure `JAVA_HOME` is set to Java 8):
 * In the first terminal, change to the `clients/cli-amqp-producer` directory and run:
     * `mvn spring-boot:run -Damq-broker.url=<route url>`
+    * Example: `mvn spring-boot:run -Damq-broker.url=broker-amq-broker-demo.apps.cluster-0df2.0df2.example.opentlc.com`
     * Once the app starts, you can enter messages to add to the queue.
 * In the second terminal, change to the `clients/cli-amqp-consumer` directory and run:
     * `mvn spring-boot:run -Damq-broker.url=<route url>`
+    * Example: `mvn spring-boot:run -Damq-broker.url=broker-amq-broker-demo.apps.cluster-0df2.0df2.example.opentlc.com`
     * Once the app starts, you will see the messages that were pulled from the queue.
 
-## Sample Producer and Consumer
-
-The `./provision-clients` script will provision producer and consumer Fuse apps to an  OpenShift cluster.
-
-If you simply want to run the sample producer and consumer apps locally:
-
-1. Make sure `JAVA_HOME` is set to Java 8.
-2. Launch Producer and Consumer apps in two different terminal windows:
-
-**Producer:**
-* Change to `clients/producer` directory:
-* Run `mvn spring-boot:run -Damq-broker.url=broker-amq-demo.apps.cluster-0df2.0df2.example.opentlc.com`
-* Make sure the URL param is the passthrough URL output by the broker script.
-
-**Consumer:**
-* Change to `clients/consumer` directory:
-* Run `mvn spring-boot:run -Damq-broker.url=broker-amq-demo.apps.cluster-0df2.0df2.example.opentlc.com`
-* Make sure the URL param is the passthrough URL output by the broker script.
 
 ## Reference
 

@@ -12,14 +12,15 @@ echo "Create the client builds, imagstreams, deployments and service."
 echo ""
 echo "Creating Producer"
 echo ""
-oc apply -f clients/producer
+oc apply -f manifests/producer
 
 echo ""
 echo "Creating Consumer"
 echo ""
-oc apply -f clients/consumer
+oc apply -f manifests/consumer
 
 echo ""
 echo "** Producer and Consumer building and deploying."
 echo "** Once started, view the pod logs to see messages being created and consumed."
+echo ""
 
