@@ -13,8 +13,8 @@ client-truststore:
 
 
 amq-broker:
-  url: broker-amq-demo.example.com
-  #url: broker-amq-demo.apps.cluster-0df2.0df2.example.opentlc.com
+  url: broker-amq-broker-demo.example.com
+  #url: broker-amq-broker-demo.apps.cluster-0df2.0df2.example.opentlc.com
   port: 443
   options: transport.keyStoreLocation=${client-keystore.location}&transport.keyStorePassword=${client-keystore.password}&transport.trustStoreLocation=${client-truststore.location}&transport.trustStorePassword=${client-truststore.password}&transport.verifyHost=false
 

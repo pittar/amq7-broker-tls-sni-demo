@@ -13,7 +13,7 @@ echo ""
 
 echo "Create a demo project, service account, and secret."
 echo ""
-oc new-project amq-demo
+oc new-project amq-broker-demo
 
 oc create sa amq-service-account
 
@@ -41,6 +41,8 @@ oc new-app --template=amq-broker-77-ssl \
    -p AMQ_TRUSTSTORE_PASSWORD=password \
    -p AMQ_KEYSTORE=broker.ks \
    -p AMQ_KEYSTORE_PASSWORD=password
+
+echo ""
 echo "AMQ Broker is deploying."
 echo ""
 
@@ -48,9 +50,8 @@ echo "Create a 'passthrough' route to port 61617 (all protocols ssl)."
 echo ""
 oc apply -f manifests/broker/broker-passthrough-route.yaml
 
-AMQ_HOST=$(oc get route broker -o=jsonpath='{.spec.host}{"\n"}')
-
-echo "Broker route created. Use the following URL in your client configuration:"
+echo "Broker route created. Use the following URL in your 'broker-params-secret' or as a command line arg:"
 echo ""
-echo "amqps://$AMQ_HOST:443"
-
+oc get route broker -o=jsonpath='{.spec.host}{"\n"}'
+echo ""
+echo "Done!"

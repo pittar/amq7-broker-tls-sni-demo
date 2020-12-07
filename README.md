@@ -142,19 +142,24 @@ Open two new terminals (make sure `JAVA_HOME` is set to Java 8):
     * `mvn spring-boot:run -Damq-broker.url=<route url>`
     * Once the app starts, you will see the messages that were pulled from the queue.
 
-## Sample OpenShift App
+## Sample Producer and Consumer
 
-If you want to deploy a sample app to OpenShift to connect to the broker:
+The `./provision-clients` script will provision producer and consumer Fuse apps to an  OpenShift cluster.
 
-```
-# First, create a new projet.
-$ oc new-project amq-consumer
+If you simply want to run the sample producer and consumer apps locally:
 
-# Create aa secret with the client keystore and truststore.
-$ oc create secret generic amq-client-secret --from-file=client.ks=tls/client.ks --from-file=client.ts=tls/client.ts
+1. Make sure `JAVA_HOME` is set to Java 8.
+2. Launch Producer and Consumer apps in two different terminal windows:
 
+**Producer:**
+* Change to `clients/producer` directory:
+* Run `mvn spring-boot:run -Damq-broker.url=broker-amq-demo.apps.cluster-0df2.0df2.example.opentlc.com`
+* Make sure the URL param is the passthrough URL output by the broker script.
 
-```
+**Consumer:**
+* Change to `clients/consumer` directory:
+* Run `mvn spring-boot:run -Damq-broker.url=broker-amq-demo.apps.cluster-0df2.0df2.example.opentlc.com`
+* Make sure the URL param is the passthrough URL output by the broker script.
 
 ## Reference
 
